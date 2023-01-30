@@ -1,3 +1,4 @@
+"""Database infra module"""
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -12,8 +13,9 @@ Base = declarative_base()
 
 
 def get_db():
-    db = SessionLocal()
+    """Get DB Session Function"""
+    database = SessionLocal()
     try:
-        yield db
+        yield database
     finally:
-        db.close()
+        database.close()

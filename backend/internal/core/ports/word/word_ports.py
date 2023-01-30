@@ -1,8 +1,12 @@
+"""Word ports module"""
 import abc
 from internal.core.entities import schemas
 
 
+# pylint: disable=R0913
 class WordStorageOutputPort(metaclass=abc.ABCMeta):
+    """Word Storage Output Port Class"""
+
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'create_word') and
@@ -21,24 +25,27 @@ class WordStorageOutputPort(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_word(self, word: str, sl: schemas.Language, tl: schemas.Language):
+    def get_word(self, word: str, source_lang: schemas.Language, target_lang: schemas.Language):
         """Get word from database"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def delete_word(self, word: str, sl: schemas.Language, tl: schemas.Language):
+    def delete_word(self, word: str, source_lang: schemas.Language, target_lang: schemas.Language):
         """Delete word in database"""
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_words(self, sl: schemas.Language, tl: schemas.Language, order_by: schemas.OrderBy, offset: int, limit: int,
+    def get_words(self, source_lang: schemas.Language, target_lang: schemas.Language,
+                  order_by: schemas.OrderBy, offset: int, limit: int,
                   order_direction: schemas.OrderDirection,
-                  filter, extended: bool):
+                  text_filter, extended: bool):
         """Get words from database"""
         raise NotImplementedError
 
 
 class GoogleTranslateExtendedApiOutputPort(metaclass=abc.ABCMeta):
+    """Google Translate Extended Api Output Port class"""
+
     @classmethod
     def __subclasshook__(cls, subclass):
         return (hasattr(subclass, 'get_word_data') and
@@ -46,6 +53,7 @@ class GoogleTranslateExtendedApiOutputPort(metaclass=abc.ABCMeta):
                 NotImplemented)
 
     @abc.abstractmethod
-    def get_word_data(self, word: schemas.WordIn, sl: schemas.Language, tl: schemas.Language):
+    def get_word_data(self, word: schemas.WordIn, source_lang: schemas.Language,
+                      target_lang: schemas.Language):
         """Get word data from Google Translate extended API"""
         raise NotImplementedError
